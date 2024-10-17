@@ -87,7 +87,7 @@ class AutoTokenizerTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 AutoTokenizer.register(BertConfig, fast_tokenizer_class=BertTokenizerFast)
 
-            # We pass through a llama tokenizer fast cause there is no converter slow to fast for our new toknizer
+            # We pass through a bert tokenizer fast cause there is no converter slow to fast for our new toknizer
             # and that model does not have a tokenizer.json
             with tempfile.TemporaryDirectory() as tmp_dir:
                 llama_tokenizer = BertTokenizerFast.from_pretrained("julien-c/bert-xsmall-dummy", from_hf_hub=True)
