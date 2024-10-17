@@ -1521,8 +1521,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
             "added_tokens_file": ADDED_TOKENS_FILE,
             "special_tokens_map_file": SPECIAL_TOKENS_MAP_FILE,
             "tokenizer_config_file": TOKENIZER_CONFIG_FILE,
-            "chat_template_file": CHAT_TEMPLATE_CONFIG_NAME,  # what's this
-            # "tokenizer_file": FULL_TOKENIZER_FILE,
+            "chat_template_file": CHAT_TEMPLATE_CONFIG_NAME,
         }
 
         vocab_files_target = {**cls.resource_files_names, **additional_files_names}
@@ -1839,6 +1838,9 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
 
         # Add tokenizer class to the tokenizer config to be able to reload it with from_pretrained
         tokenizer_class = self.__class__.__name__
+        # Remove the Fast at the end unless we have a special `PreTrainedTokenizerFast`
+        if tokenizer_class.endswith("Fast") and tokenizer_class != "PreTrainedTokenizerFast":
+            tokenizer_class = tokenizer_class[:-4]
         tokenizer_config["tokenizer_class"] = tokenizer_class
 
         with io.open(tokenizer_config_file, "w", encoding="utf-8") as f:
