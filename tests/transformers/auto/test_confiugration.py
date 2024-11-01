@@ -23,6 +23,7 @@ import unittest
 from paddlenlp.transformers import AutoConfig
 from paddlenlp.transformers.auto.configuration import CONFIG_MAPPING
 from paddlenlp.transformers.bert.configuration import BertConfig
+from paddlenlp.transformers.configuration_utils import PretrainedConfig
 from paddlenlp.utils.env import CONFIG_NAME
 from tests.utils.test_module.custom_configuration import CustomConfig
 
@@ -90,6 +91,13 @@ class AutoConfigTest(unittest.TestCase):
             self.assertEqual(auto_config.hidden_size, number)
 
     def test_new_config_registration(self):
+        class CustomConfig(PretrainedConfig):
+            model_type = "custom"
+
+            def __init__(self, attribute=1, **kwargs):
+                self.attribute = attribute
+                super().__init__(**kwargs)
+
         try:
             AutoConfig.register("custom", CustomConfig)
             # Wrong model type will raise an error
