@@ -52,6 +52,7 @@ def _is_package_available(pkg_name: str, return_version: bool = False) -> Union[
             else:
                 # For packages other than "torch", don't attempt the fallback and set as not available
                 package_exists = False
+        logger.debug(f"Detected {pkg_name} version: {package_version}")
     if return_version:
         return package_exists, package_version
     else:
@@ -95,6 +96,7 @@ def _is_package_available(pkg_name: str, return_version: bool = False) -> Union[
             else:
                 # For packages other than "torch", don't attempt the fallback and set as not available
                 package_exists = False
+        logger.debug(f"Detected {pkg_name} version: {package_version}")
     if return_version:
         return package_exists, package_version
     else:

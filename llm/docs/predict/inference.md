@@ -19,7 +19,7 @@ PaddleNLP大模型推理提供压缩、推理、服务全流程体验 ：
 
 - 支持多硬件大模型推理，包括[昆仑XPU](../../xpu/llama/README.md)、[昇腾NPU](../../npu/llama/README.md)、[海光K100](../dcu_install.md)、[燧原GCU](../../gcu/llama/README.md)、[X86 CPU](../cpu_install.md)等
 
-- 提供面向服务器场景的部署服务，支持连续批处理(continuous batching)、流式输出等功能，HTTP协议的服务接口
+- 提供面向服务器场景的部署服务，支持连续批处理(continuous batching)、流式输出等功能，支持gRPC、HTTP协议的服务接口
 
 
 ## 1. 模型支持
@@ -28,10 +28,9 @@ PaddleNLP 中已经添加高性能推理模型相关实现，已验证过的模�
 | Models | Example Models |
 |--------|----------------|
 |Llama 3.1, Llama 3, Llama 2|`meta-llama/Meta-Llama-3.1-8B`, `meta-llama/Meta-Llama-3.1-8B-Instruct`, `meta-llama/Meta-Llama-3.1-405B`, `meta-llama/Meta-Llama-3.1-405B-Instruct`,`meta-llama/Meta-Llama-3-8B`, `meta-llama/Meta-Llama-3-8B-Instruct`, `meta-llama/Meta-Llama-3-70B`, `meta-llama/Meta-Llama-3-70B-Instruct`, `meta-llama/Llama-Guard-3-8B`, `Llama-2-7b, meta-llama/Llama-2-7b-chat`, `meta-llama/Llama-2-13b`, `meta-llama/Llama-2-13b-chat`, `meta-llama/Llama-2-70b`, `meta-llama/Llama-2-70b-chat`|
-|Qwen 2| `Qwen/Qwen2-0.5B`, `Qwen/Qwen2-0.5B-Instruct`, `Qwen/Qwen2-1.5B`, `Qwen/Qwen2-1.5B-Instruct`, `Qwen/Qwen2-7B`, `Qwen/Qwen2-7B-Instruct`, `Qwen/Qwen2-72B`, `Qwen/Qwen2-72B-Instruct`, `Qwen/Qwen2-57B-A14B`, `Qwen/Qwen2-57B-A14B-Instruct`, `Qwen/Qwen2-Math-1.5B-Instruct`|
-|Qwen 2.5| `Qwen/Qwen2.5-7B-Instruct`, `Qwen/Qwen2.5-14B-Instruct`, `Qwen/Qwen2.5-Math-1.5B-Instruct`, `Qwen/Qwen2.5-Coder-1.5B-Instruct`|
-|Qwen-MoE| `Qwen/Qwen1.5-MoE-A2.7B`, `Qwen/Qwen1.5-MoE-A2.7B-Chat`, `Qwen/Qwen2-57B-A14B`, `Qwen/Qwen2-57B-A14B-Instruct`|
-|Mixtral| `mistralai/Mixtral-8x7B-Instruct-v0.1`, `mistralai/Mixtral-8x22B-Instruct-v0.1`|
+|Qwen 2| `Qwen/Qwen2-0.5B`, `Qwen/Qwen2-0.5B-Instruct`, `Qwen/Qwen2-1.5B`, `Qwen/Qwen2-1.5B-Instruct`, `Qwen/Qwen2-7B`, `Qwen/Qwen2-7B-Instruct`, `Qwen/Qwen2-72B`, `Qwen/Qwen2-72B-Instruct`, `Qwen/Qwen2-57B-A14B`, `Qwen/Qwen2-57B-A14B-Instruct`|
+|Qwen-Moe| `Qwen/Qwen1.5-MoE-A2.7B`, `Qwen/Qwen1.5-MoE-A2.7B-Chat`, `Qwen/Qwen2-57B-A14B`, `Qwen/Qwen2-57B-A14B-Instruct`|
+|Mixtral| `mistralai/Mixtral-8x7B-Instruct-v0.1`|
 |ChatGLM 3, ChatGLM 2| `THUDM/chatglm3-6b`, `THUDM/chatglm2-6b`|
 |Baichuan 2, Baichuan|`baichuan-inc/Baichuan2-7B-Base`, `baichuan-inc/Baichuan2-7B-Chat`, `baichuan-inc/Baichuan2-13B-Base`, `baichuan-inc/Baichuan2-13B-Chat`, `baichuan-inc/Baichuan-7B`, `baichuan-inc/Baichuan-13B-Base`, `baichuan-inc/Baichuan-13B-Chat`|
 
@@ -95,9 +94,7 @@ PaddleNLP 提供了多种参数，用于配置推理模型和优化推理性能�
 
 - `block_attn`: 是否使用 Block Attention 推理， 默认值为False。Block Attention 是基于 PageAttention 的思想设计并实现的，在保持高性能推理和动态插入的基础上可以动态地为 cachekv 分配存储空间，极大地节省显存并提升推理的吞吐。
 
-- `append_attn`: Append Attention 在 Block Attention 实现的基础上，进一步借鉴 FlashInfer 的实现对 Attention 模块进行了优化，并增加了C4的高性能支持，极大地提升了推理性能。属于是 Block Attention 实现的升级版，此选项可替代`block_attn`单独开启。
-
-- `block_size`: 如果使用 Block Attention 或者 Append Attention 推理，指定一个 Block 可以存储的 token 数量，默认值为64。
+- `block_size`: 如果使用 Block Attention 推理，指定一个 Block 可以存储的 token 数量，默认值为64。
 
 
 ### 3.3 量化参数
@@ -189,5 +186,5 @@ python ./predict/predictor.py --model_name_or_path meta-llama/Llama-2-7b-chat --
 
 ## 致谢
 
-我们参考[FlashInfer框架](https://github.com/flashinfer-ai/flashinfer)，在FlashInfer的基础上，实现了append attention。参考[PageAttention](https://github.com/vllm-project/vllm)的page分块的思想实现了generation阶段的block attention。基于[Flash Decoding](https://github.com/Dao-AILab/flash-attention)的KV分块思想实现了长sequence场景下的推理加速。基于[Flash Attention2](https://github.com/Dao-AILab/flash-attention)实现了prefill阶段的attention加速。FP8 GEMM基于[CUTLASS](https://github.com/NVIDIA/cutlass)的高性能模板库实现。有部分算子如gemm_dequant参考了[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)和[FasterTransformer](https://github.com/NVIDIA/FasterTransformer.git)的实现和优化思路。
+我们参考[PageAttention](https://github.com/vllm-project/vllm)的page分块的思想实现了generation阶段的block attention。基于[Flash Decoding](https://github.com/Dao-AILab/flash-attention)的KV分块思想实现了长sequence场景下的推理加速。基于[Flash Attention2](https://github.com/Dao-AILab/flash-attention)实现了prefill阶段的attention加速。FP8 GEMM基于[CUTLASS](https://github.com/NVIDIA/cutlass)的高性能模板库实现。有部分算子如gemm_dequant参考了[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)和[FasterTransformer](https://github.com/NVIDIA/FasterTransformer.git)的实现和优化思路。
 

@@ -24,6 +24,7 @@ from ...utils.download import resolve_file_path
 from ...utils.import_utils import import_module
 from ...utils.log import logger
 from ..configuration_utils import PretrainedConfig
+from ..tokenizer_utils import PretrainedTokenizer
 from ..tokenizer_utils_base import TOKENIZER_CONFIG_FILE
 from ..tokenizer_utils_fast import PretrainedTokenizerFast
 from .configuration import (
@@ -43,9 +44,17 @@ if TYPE_CHECKING:
 else:
     TOKENIZER_MAPPING_NAMES = OrderedDict(
         [
-            ("albert", (("AlbertChineseTokenizer", "AlbertEnglishTokenizer"), None)),
+            ("albert", "AlbertTokenizer"),
+            ("albert_chinese", "AlbertChineseTokenizer"),
+            ("albert_english", "AlbertEnglishTokenizer"),
             ("bart", "BartTokenizer"),
-            ("bert", "BertTokenizer"),
+            (
+                "bert",
+                (
+                    "BertTokenizer",
+                    "BertTokenizerFast" if is_tokenizers_available() else None,
+                ),
+            ),
             ("blenderbot", "BlenderbotTokenizer"),
             ("bloom", "BloomTokenizer"),
             ("clip", "CLIPTokenizer"),
@@ -66,13 +75,14 @@ else:
             (
                 "llama",
                 (
-                    ("LlamaTokenizer", "Llama3Tokenizer"),
+                    "LlamaTokenizer",
                     "LlamaTokenizerFast" if is_tokenizers_available() else None,
                 ),
             ),
             ("luke", "LukeTokenizer"),
             ("mamba", "MambaTokenizer"),
-            ("mbart", (("MBartTokenizer", "MBart50Tokenizer"), None)),
+            ("mbart", "MBartTokenizer"),
+            ("mbart50", "MBart50Tokenizer"),
             ("mobilebert", "MobileBertTokenizer"),
             ("mpnet", "MPNetTokenizer"),
             ("nezha", "NeZhaTokenizer"),
@@ -107,51 +117,30 @@ else:
             ("tinybert", "TinyBertTokenizer"),
             ("unified_transformer", "UnifiedTransformerTokenizer"),
             ("unimo", "UNIMOTokenizer"),
-            ("gpt", (("GPTTokenizer", "GPTChineseTokenizer"), None)),
+            ("gpt", "GPTChineseTokenizer"),
             ("gau_alpha", "GAUAlphaTokenizer"),
             ("artist", "ArtistTokenizer"),
             ("chineseclip", "ChineseCLIPTokenizer"),
             ("ernie_vil", "ErnieViLTokenizer"),
             ("glm", "GLMGPT2Tokenizer"),
             ("qwen", "QWenTokenizer"),
-            ("qwen2", "Qwen2Tokenizer"),
             ("yuan", "YuanTokenizer"),
         ]
     )
 
+TOKENIZER_MAPPING = _LazyAutoMapping(CONFIG_MAPPING_NAMES, TOKENIZER_MAPPING_NAMES)
 
-def get_mapping_tokenizers(tokenizers, with_fast=True):
-    all_tokenizers = []
-    if isinstance(tokenizers, tuple):
-        (tokenizer_slow, tokenizer_fast) = tokenizers
-        if isinstance(tokenizer_slow, tuple):
-            all_tokenizers.extend(tokenizer_slow)
-        else:
-            all_tokenizers.append(tokenizer_slow)
-        if with_fast and tokenizer_fast is not None:
-            all_tokenizers.append(tokenizer_fast)
-    else:
-        all_tokenizers.append(tokenizers)
-    return all_tokenizers
+CONFIG_TO_TYPE = {v: k for k, v in CONFIG_MAPPING_NAMES.items()}
 
 
 def get_configurations():
     MAPPING_NAMES = OrderedDict()
-    for class_name, values in TOKENIZER_MAPPING_NAMES.items():
-        all_tokenizers = get_mapping_tokenizers(values, with_fast=False)
-        for key in all_tokenizers:
-            import_class = importlib.import_module(f"paddlenlp.transformers.{class_name}.tokenizer")
-            tokenizer_name = getattr(import_class, key)
-            name = tuple(tokenizer_name.pretrained_init_configuration.keys())
-            MAPPING_NAMES[name] = tokenizer_name
+    for key, class_name in TOKENIZER_MAPPING_NAMES.items():
+        import_class = importlib.import_module(f"paddlenlp.transformers.{class_name}.tokenizer")
+        tokenizer_name = getattr(import_class, key)
+        name = tuple(tokenizer_name.pretrained_init_configuration.keys())
+        MAPPING_NAMES[name] = tokenizer_name
     return MAPPING_NAMES
-
-
-INIT_CONFIG_MAPPING = get_configurations()
-
-TOKENIZER_MAPPING = _LazyAutoMapping(CONFIG_MAPPING_NAMES, TOKENIZER_MAPPING_NAMES)
-
-CONFIG_TO_TYPE = {v: k for k, v in CONFIG_MAPPING_NAMES.items()}
 
 
 def tokenizer_class_from_name(class_name: str):
@@ -159,14 +148,15 @@ def tokenizer_class_from_name(class_name: str):
         return PretrainedTokenizerFast
 
     for module_name, tokenizers in TOKENIZER_MAPPING_NAMES.items():
-        all_tokenizers = get_mapping_tokenizers(tokenizers)
-        if class_name in all_tokenizers:
+        if class_name in tokenizers:
             module_name = model_type_to_module_name(module_name)
+            print(f"module_name: {module_name}")
             try:
                 module = importlib.import_module(f".{module_name}", "paddlenlp.transformers")
                 return getattr(module, class_name)
             except AttributeError:
                 try:
+                    print(f"module: {module}")
                     module = importlib.import_module(f".{module_name}.tokenizer", "paddlenlp.transformers")
 
                     return getattr(module, class_name)
@@ -290,8 +280,6 @@ class AutoTokenizer:
     base tokenizer classes when created with the AutoTokenizer.from_pretrained() classmethod.
     """
 
-    _tokenizer_mapping = get_configurations()
-
     def __init__(self):
         raise EnvironmentError(
             "AutoTokenizer is designed to be instantiated "
@@ -392,20 +380,6 @@ class AutoTokenizer:
             # TODO: Support tokenizer_type
             raise NotImplementedError("tokenizer_type is not supported yet.")
 
-        all_tokenizer_names = []
-
-        for names, tokenizer_class in cls._tokenizer_mapping.items():
-            for name in names:
-                all_tokenizer_names.append(name)
-
-        # From built-in pretrained models
-        if pretrained_model_name_or_path in all_tokenizer_names:
-            for names, tokenizer_class in cls._tokenizer_mapping.items():
-                for pattern in names:
-                    if pattern == pretrained_model_name_or_path:
-                        logger.info("We are using %s to load '%s'." % (tokenizer_class, pretrained_model_name_or_path))
-                        return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *model_args, **kwargs)
-
         tokenizer_config = get_tokenizer_config(pretrained_model_name_or_path, **kwargs)
         config_tokenizer_class = tokenizer_config.get("tokenizer_class")
         if config_tokenizer_class is None:
@@ -432,21 +406,18 @@ class AutoTokenizer:
         if model_type is not None:
             tokenizer_class_py = TOKENIZER_MAPPING[type(config)]
             if isinstance(tokenizer_class_py, (list, tuple)):
-                (tokenizer_class_py, tokenizer_class_fast) = tokenizer_class_py
+                if len(tokenizer_class_py) == 2:
+                    tokenizer_class_fast = tokenizer_class_py[1]
+                    tokenizer_class_py = tokenizer_class_py[0]
+                else:
+                    tokenizer_class_fast = None
             else:
                 tokenizer_class_fast = None
             if tokenizer_class_fast and (use_fast or tokenizer_class_py is None):
                 return tokenizer_class_fast.from_pretrained(pretrained_model_name_or_path, *model_args, **kwargs)
             else:
                 if tokenizer_class_py is not None:
-                    if isinstance(tokenizer_class_py, str):
-                        return tokenizer_class_py.from_pretrained(pretrained_model_name_or_path, *model_args, **kwargs)
-                    else:
-                        # Use the first tokenizer class in the list
-                        print("We are using %s to load '%s'." % (tokenizer_class_py[0], pretrained_model_name_or_path))
-                        return tokenizer_class_py[0].from_pretrained(
-                            pretrained_model_name_or_path, *model_args, **kwargs
-                        )
+                    return tokenizer_class_py.from_pretrained(pretrained_model_name_or_path, *model_args, **kwargs)
                 else:
                     raise ValueError(
                         "This tokenizer cannot be instantiated. Please make sure you have `sentencepiece` installed "
@@ -502,4 +473,3 @@ class AutoTokenizer:
                 fast_tokenizer_class = existing_fast
 
         TOKENIZER_MAPPING.register(config_class, (slow_tokenizer_class, fast_tokenizer_class), exist_ok=exist_ok)
-

@@ -31,9 +31,9 @@ from .testing_utils import LLMTest
         ["llama"],
         ["chatglm"],
         ["chatglm2"],
-        # ["bloom"], @skip("Skip and wait to fix.")
+        ["bloom"],
         ["qwen"],
-        # ["baichuan"], @skip("Skip and wait to fix.")
+        ["baichuan"],
     ],
 )
 class VeraTest(LLMTest, unittest.TestCase):

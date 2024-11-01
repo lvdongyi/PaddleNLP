@@ -29,9 +29,9 @@ from .testing_utils import LLMTest
     ["model_dir"],
     [
         ["llama"],
-        # ["chatglm"], @skip("Skip and wait to fix.")
-        # ["chatglm2"], @skip("Skip and wait to fix.")
-        # ["bloom"], @skip("Skip and wait to fix.")
+        ["chatglm"],
+        ["chatglm2"],
+        ["bloom"],
         ["qwen"],
         ["baichuan"],
     ],

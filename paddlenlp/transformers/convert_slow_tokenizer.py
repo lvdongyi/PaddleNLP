@@ -36,6 +36,7 @@ from paddlenlp.utils.import_utils import (
     is_sentencepiece_available,
 )
 
+
 def import_protobuf(error_message=""):
     if is_sentencepiece_available():
         from sentencepiece import sentencepiece_model_pb2
@@ -306,28 +307,6 @@ class TikTokenConverter:
         merges = sorted(merges, key=lambda val: val[2], reverse=False)
         merges = [(token_bytes_to_string(val[0]), token_bytes_to_string(val[1])) for val in merges]
         return vocab, merges
-
-    def tokenizer(self):
-        vocab_scores, merges = self.extract_vocab_merges_from_model(self.vocab_file)
-        tokenizer = Tokenizer(BPE(vocab_scores, merges, fuse_unk=False))
-        if hasattr(tokenizer.model, "ignore_merges"):
-            tokenizer.model.ignore_merges = True
-        return tokenizer
-
-    def converted(self) -> Tokenizer:
-        tokenizer = self.tokenizer()
-        tokenizer.pre_tokenizer = pre_tokenizers.Sequence(
-            [
-                pre_tokenizers.Split(Regex(self.pattern), behavior="isolated", invert=False),
-                pre_tokenizers.ByteLevel(add_prefix_space=self.add_prefix_space, use_regex=False),
-            ]
-        )
-        tokenizer.decoder = decoders.ByteLevel()
-        tokenizer.add_special_tokens(self.additional_special_tokens)
-
-        tokenizer.post_processor = processors.ByteLevel(trim_offsets=False)
-
-        return tokenizer
 
     def tokenizer(self):
         vocab_scores, merges = self.extract_vocab_merges_from_model(self.vocab_file)

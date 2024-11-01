@@ -14,7 +14,7 @@ PaddleNLP 提供了 Trainer 训练 API，针对训练过程的通用训练配置
 ## Trainer 基本使用方法介绍
 
 下面是用户使用 Trainer API 进行 finetune 任务的简单示例，这里以中文情感分类数据集`chnsenticorp`为例。
-更详细的使用可以参考[CLUE Trainer](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/slm/examples/benchmark/clue/classification/run_clue_classifier_trainer.py)版本。
+更详细的使用可以参考[CLUE Trainer](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/legacy/examples/benchmark/clue/classification/run_clue_classifier_trainer.py)版本。
 
 1. 导入需要用到的头文件。
     - 主要是模型、Tokenizer
@@ -82,7 +82,7 @@ if training_args.do_train:
     trainer.log_metrics("train", metrics)
     trainer.save_state()
 ```
-预训练的使用方式可以参考[ERNIE-1.0 Trainer](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/slm/model_zoo/ernie-1.0/run_pretrain_trainer.py)版本。
+预训练的使用方式可以参考[ERNIE-1.0 Trainer](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/legacy/model_zoo/ernie-1.0/run_pretrain_trainer.py)版本。
 
 
 ## Trainer 进阶分布式能力使用介绍
@@ -724,9 +724,6 @@ Trainer 是一个简单，但功能完整的 Paddle 训练和评估模块，并�
                                                      2. if master_weights does not exist, convert model weights to master_weights when needed.
                            async_save, enable asynchronous saving checkpoints to disk.
                            enable_all_options, enable all unified checkpoint optimization configs.
-
-  --ordered_save_group_size
-                       选择同时轮流save checkpoint的进程数量。如果设置为0，则不使用轮流save checkpoint功能。
 
   --skip_memory_metrics
                        是否跳过内存profiler检测。（可选，默认为True，跳过）

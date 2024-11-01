@@ -14,15 +14,11 @@
 # limitations under the License.
 """Tokenization class for ALBERT model."""
 
-import os
-import unicodedata
-from shutil import copyfile
+from .. import AddedToken, PretrainedTokenizer
+from ..albert_chinese.tokenizer import AlbertChineseTokenizer
+from ..albert_english.tokenizer import AlbertEnglishTokenizer
 
-import sentencepiece as spm
-
-from .. import AddedToken, BertTokenizer, PretrainedTokenizer
-
-__all__ = ["AlbertTokenizer", "AlbertChineseTokenizer", "AlbertEnglishTokenizer"]
+__all__ = ["AlbertTokenizer"]
 
 SPIECE_UNDERLINE = "▁"
 

@@ -1,4 +1,4 @@
-# PaddleNLP 一键预测功能：Taskflow API
+# PaddleNLP一键预测功能：Taskflow API
 
 
 
@@ -22,7 +22,7 @@
 ------------------------------------------------------------------------------------------
 
 ## 特性
-PaddleNLP 提供**开箱即用**的产业级 NLP 预置任务能力，无需训练，一键预测。
+PaddleNLP提供**开箱即用**的产业级NLP预置任务能力，无需训练，一键预测。
 - 最全的中文任务：覆盖自然语言理解与自然语言生成两大核心应用；
 - 极致的产业级效果：在多个中文场景上提供产业级的精度与预测性能；
 - 统一的应用范式：通过`paddlenlp.Taskflow`调用，简捷易用。
@@ -30,20 +30,20 @@ PaddleNLP 提供**开箱即用**的产业级 NLP 预置任务能力，无需训�
 | 任务名称                           | 调用方式                                    | 一键预测 | 单条输入 | 多条输入 | 文档级输入 | 定制化训练 | 其它特性                                                                        |
 |:-----------------------------------|---------------------------------------------|----------|----------|----------|------------|------------|---------------------------------------------------------------------------------|
 | [中文分词](#中文分词)              | `Taskflow("word_segmentation")`             | ✅        | ✅        | ✅        | ✅          | ✅          | 多种分词模式，满足快速切分和实体粒度精准切分                                    |
-| [词性标注](#词性标注)              | `Taskflow("pos_tagging")`                   | ✅        | ✅        | ✅        | ✅          | ✅          | 基于百度前沿词法分析工具 LAC                                                     |
+| [词性标注](#词性标注)              | `Taskflow("pos_tagging")`                   | ✅        | ✅        | ✅        | ✅          | ✅          | 基于百度前沿词法分析工具LAC                                                     |
 | [命名实体识别](#命名实体识别)      | `Taskflow("ner")`                           | ✅        | ✅        | ✅        | ✅          | ✅          | 覆盖最全中文实体标签                                                            |
-| [依存句法分析](#依存句法分析)      | `Taskflow("dependency_parsing")`            | ✅        | ✅        | ✅        |            | ✅          | 基于最大规模中文依存句法树库研发的 DDParser                                      |
+| [依存句法分析](#依存句法分析)      | `Taskflow("dependency_parsing")`            | ✅        | ✅        | ✅        |            | ✅          | 基于最大规模中文依存句法树库研发的DDParser                                      |
 | [信息抽取](#信息抽取)              | `Taskflow("information_extraction")`        | ✅        | ✅        | ✅        | ✅          | ✅          | 适配多场景的开放域通用信息抽取工具                                              |
 | [『解语』-知识标注](#解语知识标注) | `Taskflow("knowledge_mining")`              | ✅        | ✅        | ✅        | ✅          | ✅          | 覆盖所有中文词汇的知识标注工具                                                  |
-| [文本纠错](#文本纠错)              | `Taskflow("text_correction")`               | ✅        | ✅        | ✅        | ✅          | ✅          | 融合拼音特征的端到端文本纠错模型 ERNIE-CSC                                       |
-| [文本相似度](#文本相似度)          | `Taskflow("text_similarity")`               | ✅        | ✅        | ✅        |            |            | 基于百万量级 Dureader Retrieval 数据集训练 RocketQA 并达到前沿文本相似效果          |
-| [情感分析](#情感分析)              | `Taskflow("sentiment_analysis")`            | ✅        | ✅        | ✅        |            | ✅          | 集成 BiLSTM、SKEP、UIE 等模型，支持评论维度、观点抽取、情感极性分类等情感分析任务 |
-| [生成式问答](#生成式问答)          | `Taskflow("question_answering")`            | ✅        | ✅        | ✅        |            |            | 使用最大中文开源 CPM 模型完成问答                                                 |
-| [智能写诗](#智能写诗)              | `Taskflow("poetry_generation")`             | ✅        | ✅        | ✅        |            |            | 使用最大中文开源 CPM 模型完成写诗                                                 |
-| [开放域对话](#开放域对话)          | `Taskflow("dialogue")`                      | ✅        | ✅        | ✅        |            |            | 十亿级语料训练最强中文闲聊模型 PLATO-Mini，支持多轮对话                          |
+| [文本纠错](#文本纠错)              | `Taskflow("text_correction")`               | ✅        | ✅        | ✅        | ✅          | ✅          | 融合拼音特征的端到端文本纠错模型ERNIE-CSC                                       |
+| [文本相似度](#文本相似度)          | `Taskflow("text_similarity")`               | ✅        | ✅        | ✅        |            |            | 基于百万量级Dureader Retrieval数据集训练RocketQA并达到前沿文本相似效果          |
+| [情感分析](#情感分析)              | `Taskflow("sentiment_analysis")`            | ✅        | ✅        | ✅        |            | ✅          | 集成BiLSTM、SKEP、UIE等模型，支持评论维度、观点抽取、情感极性分类等情感分析任务 |
+| [生成式问答](#生成式问答)          | `Taskflow("question_answering")`            | ✅        | ✅        | ✅        |            |            | 使用最大中文开源CPM模型完成问答                                                 |
+| [智能写诗](#智能写诗)              | `Taskflow("poetry_generation")`             | ✅        | ✅        | ✅        |            |            | 使用最大中文开源CPM模型完成写诗                                                 |
+| [开放域对话](#开放域对话)          | `Taskflow("dialogue")`                      | ✅        | ✅        | ✅        |            |            | 十亿级语料训练最强中文闲聊模型PLATO-Mini，支持多轮对话                          |
 | [代码生成](#代码生成)              | `Taskflow("code_generation")`               | ✅        | ✅        | ✅        | ✅          |            | 代码生成大模型                                                                  |
 | [文本摘要](#文本摘要)              | `Taskflow("text_summarization")`            | ✅        | ✅        | ✅        | ✅          |            | 文本摘要大模型                                                                  |
-| [文档智能](#文档智能)              | `Taskflow("document_intelligence")`         | ✅        | ✅        | ✅        | ✅          |            | 以多语言跨模态布局增强文档预训练模型 ERNIE-Layout 为核心底座                      |
+| [文档智能](#文档智能)              | `Taskflow("document_intelligence")`         | ✅        | ✅        | ✅        | ✅          |            | 以多语言跨模态布局增强文档预训练模型ERNIE-Layout为核心底座                      |
 | [问题生成](#问题生成)              | `Taskflow("question_generation")`           | ✅        | ✅        | ✅        | ✅          |            | 问题生成大模型                                                                  |
 | [零样本文本分类](#零样本文本分类)  | `Taskflow("zero_shot_text_classification")` | ✅        | ✅        | ✅        |            | ✅          | 集成多场景的通用文本分类工具                                                    |
 | [模型特征提取](#模型特征提取)      | `Taskflow("feature_extraction")`            | ✅        | ✅        | ✅        | ✅          |            | 集成文本，图片的特征抽取工具                                                    |
@@ -59,13 +59,13 @@ PaddleNLP 提供**开箱即用**的产业级 NLP 预置任务能力，无需训�
 
 可进入 Jupyter Notebook 环境，在线体验 👉🏻  [进入在线运行环境](https://aistudio.baidu.com/aistudio/projectdetail/3696243)
 
-PaddleNLP Taskflow API 支持任务持续丰富中，我们将根据开发者反馈，灵活调整功能建设优先级，可通过 Issue 或[问卷](https://iwenjuan.baidu.com/?code=44amg8)反馈给我们。
+PaddleNLP Taskflow API 支持任务持续丰富中，我们将根据开发者反馈，灵活调整功能建设优先级，可通过Issue或[问卷](https://iwenjuan.baidu.com/?code=44amg8)反馈给我们。
 
 ## 社区交流👬
 
 - 微信扫描二维码并填写问卷之后，加入交流群领取福利
-  - 获取5月18-19日每晚20:30《产业级通用信息抽取技术 UIE+ERNIE 轻量级模型》直播课链接
-  - 10G 重磅 NLP 学习大礼包：
+  - 获取5月18-19日每晚20:30《产业级通用信息抽取技术UIE+ERNIE轻量级模型》直播课链接
+  - 10G重磅NLP学习大礼包：
 
   <div align="center">
   <img src="https://user-images.githubusercontent.com/11793384/168411900-d9f3d777-99ab-4b5c-8cdc-ef747a48b864.jpg" width="188" height="188" />
@@ -103,7 +103,7 @@ from paddlenlp import Taskflow
 
 #### 批量样本输入，平均速度更快
 
-输入为多个句子组成的 list，平均速度会更快。
+输入为多个句子组成的list，平均速度会更快。
 
 ```python
 >>> from paddlenlp import Taskflow
@@ -115,13 +115,13 @@ from paddlenlp import Taskflow
 #### 自定义词典
 
 你可以通过传入`user_dict`参数，装载自定义词典来定制分词结果。
-在默认模式和精确模式下，词典文件每一行由一个或多个自定义 item 组成。词典文件`user_dict.txt`示例：
+在默认模式和精确模式下，词典文件每一行由一个或多个自定义item组成。词典文件`user_dict.txt`示例：
 ```text
 平原上的火焰
 上 映
 ```
 
-在快速模式下，词典文件每一行为一个自定义 item+"\t"+词频（词频可省略，词频省略则自动计算能保证分出该词的词频），暂时不支持黑名单词典（即通过设置”年“、”末“，以达到切分”年末“的目的）。词典文件`user_dict.txt`示例：
+在快速模式下，词典文件每一行为一个自定义item+"\t"+词频（词频可省略，词频省略则自动计算能保证分出该词的词频），暂时不支持黑名单词典（即通过设置”年“、”末“，以达到切分”年末“的目的）。词典文件`user_dict.txt`示例：
 
 ```text
 平原上的火焰  10
@@ -138,15 +138,15 @@ from paddlenlp import Taskflow
 ['平原上的火焰', '宣布', '延期', '上', '映']
 ```
 #### 参数说明
-* `mode`：指定分词模式，默认为 None。
+* `mode`：指定分词模式，默认为None。
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `user_dict`：自定义词典文件路径，默认为 None。
-* `task_path`：自定义任务路径，默认为 None。
+* `user_dict`：自定义词典文件路径，默认为None。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 词性标注
 
-<details><summary>&emsp;基于百度词法分析工具 LAC</summary><div>
+<details><summary>&emsp;基于百度词法分析工具LAC</summary><div>
 
 #### 支持单条和批量预测
 ```python
@@ -175,7 +175,7 @@ from paddlenlp import Taskflow
 
 #### 自定义词典
 
-你可以通过装载自定义词典来定制化分词和词性标注结果。词典文件每一行表示一个自定义 item，可以由一个单词或者多个单词组成，单词后面可以添加自定义标签，格式为`item/tag`，如果不添加自定义标签，则使用模型默认标签`n`。
+你可以通过装载自定义词典来定制化分词和词性标注结果。词典文件每一行表示一个自定义item，可以由一个单词或者多个单词组成，单词后面可以添加自定义标签，格式为`item/tag`，如果不添加自定义标签，则使用模型默认标签`n`。
 
 词典文件`user_dict.txt`示例：
 
@@ -198,8 +198,8 @@ from paddlenlp import Taskflow
 ```
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `user_dict`：用户自定义词典文件，默认为 None。
-* `task_path`：自定义任务路径，默认为 None。
+* `user_dict`：用户自定义词典文件，默认为None。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 命名实体识别
@@ -242,7 +242,7 @@ from paddlenlp import Taskflow
 
 <table>
     <thead>
-        <th colspan='7'>WordTag 标签集合</th>
+        <th colspan='7'>WordTag标签集合</th>
     </thead>
     <tbody>
         <tr>
@@ -379,7 +379,7 @@ from paddlenlp import Taskflow
 
 #### 自定义词典
 
-你可以通过装载自定义词典来定制化命名实体识别结果。词典文件每一行表示一个自定义 item，可以由一个 term 或者多个 term 组成，term 后面可以添加自定义标签，格式为`item/tag`，如果不添加自定义标签，则使用模型默认标签。
+你可以通过装载自定义词典来定制化命名实体识别结果。词典文件每一行表示一个自定义item，可以由一个term或者多个term组成，term后面可以添加自定义标签，格式为`item/tag`，如果不添加自定义标签，则使用模型默认标签。
 
 词典文件`user_dict.txt`示例：
 
@@ -408,14 +408,14 @@ from paddlenlp import Taskflow
 
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `user_dict`：用户自定义词典文件，默认为 None。
-* `task_path`：自定义任务路径，默认为 None。
+* `user_dict`：用户自定义词典文件，默认为None。
+* `task_path`：自定义任务路径，默认为None。
 * `entity_only`：只返回实体/概念词及其对应标签。
 </div></details>
 
 
 ### 依存句法分析
-<details><summary>&emsp;基于最大规模中文依存句法树库研发的 DDParser </summary><div>
+<details><summary>&emsp;基于最大规模中文依存句法树库研发的DDParser </summary><div>
 
 #### 支持多种形式输入
 
@@ -447,7 +447,7 @@ from paddlenlp import Taskflow
 
 #### 多种模型选择，满足精度、速度需求
 
-使用 ERNIE 1.0进行预测
+使用ERNIE 1.0进行预测
 
 ```python
 >>> ddp = Taskflow("dependency_parsing", model="ddparser-ernie-1.0")
@@ -455,7 +455,7 @@ from paddlenlp import Taskflow
 [{'word': ['2月8日', '谷爱凌', '夺得', '北京冬奥会', '第三金'], 'head': [3, 3, 0, 5, 3], 'deprel': ['ADV', 'SBV', 'HED', 'ATT', 'VOB']}]
 ```
 
-除 ERNIE 1.0外，还可使用 ERNIE-Gram 预训练模型，其中`model=ddparser`（基于 LSTM Encoder）速度最快，`model=ddparser-ernie-gram-zh`和`model=ddparser-ernie-1.0`效果更优（两者效果相当）。
+除ERNIE 1.0外，还可使用ERNIE-Gram预训练模型，其中`model=ddparser`（基于LSTM Encoder）速度最快，`model=ddparser-ernie-gram-zh`和`model=ddparser-ernie-1.0`效果更优（两者效果相当）。
 
 #### 输出方式
 
@@ -503,12 +503,12 @@ from paddlenlp import Taskflow
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `model`：选择任务使用的模型，可选有`ddparser`，`ddparser-ernie-1.0`和`ddparser-ernie-gram-zh`。
-* `tree`：确保输出结果是正确的依存句法树，默认为 True。
-* `prob`：是否输出每个弧对应的概率值，默认为 False。
-* `use_pos`：是否返回词性标签，默认为 False。
-* `use_cuda`：是否使用 GPU 进行切词，默认为 False。
-* `return_visual`：是否返回句法树的可视化结果，默认为 False。
-* `task_path`：自定义任务路径，默认为 None。
+* `tree`：确保输出结果是正确的依存句法树，默认为True。
+* `prob`：是否输出每个弧对应的概率值，默认为False。
+* `use_pos`：是否返回词性标签，默认为False。
+* `use_cuda`：是否使用GPU进行切词，默认为False。
+* `return_visual`：是否返回句法树的可视化结果，默认为False。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 信息抽取
@@ -518,9 +518,9 @@ from paddlenlp import Taskflow
 
 #### 实体抽取
 
-  命名实体识别（Named Entity Recognition，简称 NER），是指识别文本中具有特定意义的实体。在开放域信息抽取中，抽取的类别没有限制，用户可以自己定义。
+  命名实体识别（Named Entity Recognition，简称NER），是指识别文本中具有特定意义的实体。在开放域信息抽取中，抽取的类别没有限制，用户可以自己定义。
 
-  - 例如抽取的目标实体类型是"时间"、"选手"和"赛事名称", schema 构造如下：
+  - 例如抽取的目标实体类型是"时间"、"选手"和"赛事名称", schema构造如下：
 
     ```text
     ['时间', '选手', '赛事名称']
@@ -549,7 +549,7 @@ from paddlenlp import Taskflow
               'text': '谷爱凌'}]}]
     ```
 
-  - 例如抽取的目标实体类型是"肿瘤的大小"、"肿瘤的个数"、"肝癌级别"和"脉管内癌栓分级", schema 构造如下：
+  - 例如抽取的目标实体类型是"肿瘤的大小"、"肿瘤的个数"、"肝癌级别"和"脉管内癌栓分级", schema构造如下：
 
     ```text
     ['肿瘤的大小', '肿瘤的个数', '肝癌级别', '脉管内癌栓分级']
@@ -581,7 +581,7 @@ from paddlenlp import Taskflow
                   'text': 'M0级'}]}]
     ```
 
-  - 例如抽取的目标实体类型是"person"和"organization"，schema 构造如下：
+  - 例如抽取的目标实体类型是"person"和"organization"，schema构造如下：
 
     ```text
     ['person', 'organization']
@@ -607,9 +607,9 @@ from paddlenlp import Taskflow
 
 #### 关系抽取
 
-  关系抽取（Relation Extraction，简称 RE），是指从文本中识别实体并抽取实体之间的语义关系，进而获取三元组信息，即<主体，谓语，客体>。
+  关系抽取（Relation Extraction，简称RE），是指从文本中识别实体并抽取实体之间的语义关系，进而获取三元组信息，即<主体，谓语，客体>。
 
-  - 例如以"竞赛名称"作为抽取主体，抽取关系类型为"主办方"、"承办方"和"已举办次数", schema 构造如下：
+  - 例如以"竞赛名称"作为抽取主体，抽取关系类型为"主办方"、"承办方"和"已举办次数", schema构造如下：
 
     ```text
     {
@@ -657,7 +657,7 @@ from paddlenlp import Taskflow
                 'text': '2022语言与智能技术竞赛'}]}]
     ```
 
-  - 例如以"person"作为抽取主体，抽取关系类型为"Company"和"Position", schema 构造如下：
+  - 例如以"person"作为抽取主体，抽取关系类型为"Company"和"Position", schema构造如下：
 
     ```text
     {
@@ -690,9 +690,9 @@ from paddlenlp import Taskflow
 
 #### 事件抽取
 
-  事件抽取 (Event Extraction, 简称 EE)，是指从自然语言文本中抽取预定义的事件触发词(Trigger)和事件论元(Argument)，组合为相应的事件结构化信息。
+  事件抽取 (Event Extraction, 简称EE)，是指从自然语言文本中抽取预定义的事件触发词(Trigger)和事件论元(Argument)，组合为相应的事件结构化信息。
 
-  - 例如抽取的目标是"地震"事件的"地震强度"、"时间"、"震中位置"和"震源深度"这些信息，schema 构造如下：
+  - 例如抽取的目标是"地震"事件的"地震强度"、"时间"、"震中位置"和"震源深度"这些信息，schema构造如下：
 
     ```text
     {
@@ -705,7 +705,7 @@ from paddlenlp import Taskflow
     }
     ```
 
-    触发词的格式统一为`触发词`或``XX 触发词`，`XX`表示具体事件类型，上例中的事件类型是`地震`，则对应触发词为`地震触发词`。
+    触发词的格式统一为`触发词`或``XX触发词`，`XX`表示具体事件类型，上例中的事件类型是`地震`，则对应触发词为`地震触发词`。
 
     调用示例：
 
@@ -716,13 +716,13 @@ from paddlenlp import Taskflow
     [{'地震触发词': [{'text': '地震', 'start': 56, 'end': 58, 'probability': 0.9987181623528585, 'relations': {'地震强度': [{'text': '3.5级', 'start': 52, 'end': 56, 'probability': 0.9962985320905915}], '时间': [{'text': '5月16日06时08分', 'start': 11, 'end': 22, 'probability': 0.9882578028575182}], '震中位置': [{'text': '云南临沧市凤庆县(北纬24.34度，东经99.98度)', 'start': 23, 'end': 50, 'probability': 0.8551415716584501}], '震源深度': [{'text': '10千米', 'start': 63, 'end': 67, 'probability': 0.999158304648045}]}}]}]
     ```
 
-  - 英文模型 zero-shot 方式**暂不支持事件抽取**，如有英文事件抽取相关语料请进行训练定制。
+  - 英文模型zero-shot方式**暂不支持事件抽取**，如有英文事件抽取相关语料请进行训练定制。
 
 #### 评论观点抽取
 
   评论观点抽取，是指抽取文本中包含的评价维度、观点词。
 
-  - 例如抽取的目标是文本中包含的评价维度及其对应的观点词和情感倾向，schema 构造如下：
+  - 例如抽取的目标是文本中包含的评价维度及其对应的观点词和情感倾向，schema构造如下：
 
     ```text
     {
@@ -761,7 +761,7 @@ from paddlenlp import Taskflow
                 'text': '店面'}]}]
     ```
 
-  - 英文模型 schema 构造如下：
+  - 英文模型schema构造如下：
 
     ```text
     {
@@ -792,7 +792,7 @@ from paddlenlp import Taskflow
 
 #### 情感分类
 
-  - 句子级情感倾向分类，即判断句子的情感倾向是“正向”还是“负向”，schema 构造如下：
+  - 句子级情感倾向分类，即判断句子的情感倾向是“正向”还是“负向”，schema构造如下：
 
     ```text
     '情感倾向[正向，负向]'
@@ -807,7 +807,7 @@ from paddlenlp import Taskflow
     [{'情感倾向[正向，负向]': [{'text': '正向', 'probability': 0.9988661643929895}]}]
     ```
 
-    英文模型 schema 构造如下：
+    英文模型schema构造如下：
 
     ```text
     '情感倾向[正向，负向]'
@@ -824,7 +824,7 @@ from paddlenlp import Taskflow
 
 #### 跨任务抽取
 
-  - 例如在法律场景同时对文本进行实体抽取和关系抽取，schema 可按照如下方式进行构造：
+  - 例如在法律场景同时对文本进行实体抽取和关系抽取，schema可按照如下方式进行构造：
 
     ```text
     [
@@ -930,7 +930,7 @@ from paddlenlp import Taskflow
 
 #### 定制训练
 
-对于简单的抽取目标可以直接使用 ```paddlenlp.Taskflow```实现零样本（zero-shot）抽取，对于细分场景我们推荐使用[定制训练](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/model_zoo/uie)（标注少量数据进行模型微调）以进一步提升效果。
+对于简单的抽取目标可以直接使用```paddlenlp.Taskflow```实现零样本（zero-shot）抽取，对于细分场景我们推荐使用[定制训练](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/model_zoo/uie)（标注少量数据进行模型微调）以进一步提升效果。
 
 我们在互联网、医疗、金融三大垂类自建测试集上进行了实验：
 
@@ -946,16 +946,16 @@ from paddlenlp import Taskflow
 <tr><td>uie-m-base (12L768H)<td>38.46<td>74.31<td>63.37<td>87.32<td>76.27<td>80.13
 </table>
 
-0-shot 表示无训练数据直接通过 ```paddlenlp.Taskflow```进行预测，5-shot 表示每个类别包含5条标注数据进行模型微调。**实验表明 UIE 在垂类场景可以通过少量数据（few-shot）进一步提升效果**。
+0-shot表示无训练数据直接通过```paddlenlp.Taskflow```进行预测，5-shot表示每个类别包含5条标注数据进行模型微调。**实验表明UIE在垂类场景可以通过少量数据（few-shot）进一步提升效果**。
 
 #### 可配置参数说明
 
 * `schema`：定义任务抽取目标，可参考开箱即用中不同任务的调用示例进行配置。
-* `schema_lang`：设置 schema 的语言，默认为`zh`, 可选有`zh`和`en`。因为中英 schema 的构造有所不同，因此需要指定 schema 的语言。该参数只对`uie-m-base`和`uie-m-large`模型有效。
+* `schema_lang`：设置schema的语言，默认为`zh`, 可选有`zh`和`en`。因为中英schema的构造有所不同，因此需要指定schema的语言。该参数只对`uie-m-base`和`uie-m-large`模型有效。
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `model`：选择任务使用的模型，默认为`uie-base`，可选有`uie-base`, `uie-medium`, `uie-mini`, `uie-micro`, `uie-nano`, `uie-medical-base`, `uie-base-en`。
-* `position_prob`：模型对于 span 的起始位置/终止位置的结果概率0~1之间，返回结果去掉小于这个阈值的结果，默认为0.5，span 的最终概率输出为起始位置概率和终止位置概率的乘积。
-* `precision`：选择模型精度，默认为`fp32`，可选有`fp16`和`fp32`。`fp16`推理速度更快。如果选择`fp16`，请先确保机器正确安装 NVIDIA 相关驱动和基础软件，**确保 CUDA>=11.2，cuDNN>=8.1.1**，初次使用需按照提示安装相关依赖(主要是**确保安装 onnxruntime-gpu**)。其次，需要确保 GPU 设备的 CUDA 计算能力（CUDA Compute Capability）大于7.0，典型的设备包括 V100、T4、A10、A100、GTX 20系列和30系列显卡等。更多关于 CUDA Compute Capability 和精度支持情况请参考 NVIDIA 文档：[GPU 硬件与支持精度对照表](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-840-ea/support-matrix/index.html#hardware-precision-matrix)。
+* `position_prob`：模型对于span的起始位置/终止位置的结果概率0~1之间，返回结果去掉小于这个阈值的结果，默认为0.5，span的最终概率输出为起始位置概率和终止位置概率的乘积。
+* `precision`：选择模型精度，默认为`fp32`，可选有`fp16`和`fp32`。`fp16`推理速度更快。如果选择`fp16`，请先确保机器正确安装NVIDIA相关驱动和基础软件，**确保CUDA>=11.2，cuDNN>=8.1.1**，初次使用需按照提示安装相关依赖(主要是**确保安装onnxruntime-gpu**)。其次，需要确保GPU设备的CUDA计算能力（CUDA Compute Capability）大于7.0，典型的设备包括V100、T4、A10、A100、GTX 20系列和30系列显卡等。更多关于CUDA Compute Capability和精度支持情况请参考NVIDIA文档：[GPU硬件与支持精度对照表](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-840-ea/support-matrix/index.html#hardware-precision-matrix)。
 </div></details>
 
 ### 解语知识标注
@@ -972,16 +972,16 @@ from paddlenlp import Taskflow
 
 **可配置参数说明：**
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `linking`：实现基于词类的 linking，默认为 True。
-* `task_path`：自定义任务路径，默认为 None。
-* `user_dict`：用户自定义词典文件，默认为 None。
+* `linking`：实现基于词类的linking，默认为True。
+* `task_path`：自定义任务路径，默认为None。
+* `user_dict`：用户自定义词典文件，默认为None。
 
 
 知识挖掘-词类知识标注任务共包含91种词性及专名类别标签，标签集合如下表：
 
 <table>
     <thead>
-        <th colspan='7'>WordTag 标签集合</th>
+        <th colspan='7'>WordTag标签集合</th>
     </thead>
     <tbody>
         <tr>
@@ -1113,7 +1113,7 @@ from paddlenlp import Taskflow
 
 ```
 
-**自定义抽取的 schema**
+**自定义抽取的schema**
 
 ``` python
 >>> from pprint import pprint
@@ -1150,7 +1150,7 @@ from paddlenlp import Taskflow
    'TAIL_ROLE': [{'item': '王杰', 'offset': 10, 'type': '人物类_实体'}],
    'TRIG': [{'item': '作词', 'offset': 12}]}]]
 ```
-具体的 WordTag-IE 信息抽取的功能可以见[WordTag-IE 具体介绍](../../slm/examples/text_to_knowledge/wordtag-ie/README.md) .
+具体的WordTag-IE信息抽取的功能可以见[WordTag-IE具体介绍](../../legacy/examples/text_to_knowledge/wordtag-ie/README.md) .
 
 
 #### 名词短语标注
@@ -1171,14 +1171,14 @@ from paddlenlp import Taskflow
 **可配置参数说明：**
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `max_seq_len`：最大序列长度，默认为64。
-* `linking`：实现与 WordTag 类别标签的 linking，默认为 False。
-* `task_path`：自定义任务路径，默认为 None。
+* `linking`：实现与WordTag类别标签的linking，默认为False。
+* `task_path`：自定义任务路径，默认为None。
 
 
 </div></details>
 
 ### 文本纠错
-<details><summary>&emsp;融合拼音特征的端到端文本纠错模型 ERNIE-CSC</summary><div>
+<details><summary>&emsp;融合拼音特征的端到端文本纠错模型ERNIE-CSC</summary><div>
 
 
 #### 支持单条、批量预测
@@ -1197,15 +1197,15 @@ from paddlenlp import Taskflow
 
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `task_path`：自定义任务路径，默认为 None。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 文本相似度
-<details><summary>&emsp;基于百万量级 Dureader Retrieval 数据集训练 RocketQA 并达到前沿文本相似效果</summary><div>
+<details><summary>&emsp;基于百万量级Dureader Retrieval数据集训练RocketQA并达到前沿文本相似效果</summary><div>
 
 #### 单条输入
 
-+ Query-Query 的相似度匹配
++ Query-Query的相似度匹配
 
 ```python
 >>> from paddlenlp import Taskflow
@@ -1214,7 +1214,7 @@ from paddlenlp import Taskflow
 [{'text1': '春天适合种什么花？', 'text2': '春天适合种什么菜？', 'similarity': 0.83402544}]
 ```
 
-+ Query-Passage 的相似度匹配
++ Query-Passage的相似度匹配
 
 ```python
 >>> similarity = Taskflow("text_similarity", model='rocketqa-base-cross-encoder')
@@ -1224,7 +1224,7 @@ from paddlenlp import Taskflow
 
 #### 批量样本输入，平均速度更快
 
-+ Query-Query 的相似度匹配
++ Query-Query的相似度匹配
 
 ```python
 >>> from paddlenlp import Taskflow
@@ -1233,7 +1233,7 @@ from paddlenlp import Taskflow
 [{'text1': '春天适合种什么花？', 'text2': '春天适合种什么菜？', 'similarity': 0.83402544}, {'text1': '谁有狂三这张高清的', 'text2': '这张高清图，谁有', 'similarity': 0.6540646}]
 ```
 
-+ Query-Passage 的相似度匹配
++ Query-Passage的相似度匹配
 
 ```python
 >>> similarity = Taskflow("text_similarity", model='rocketqa-base-cross-encoder')
@@ -1261,11 +1261,11 @@ from paddlenlp import Taskflow
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `max_seq_len`：最大序列长度，默认为384。
-* `task_path`：自定义任务路径，默认为 None。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 情感分析
-<details><summary>&emsp;集成 BiLSTM、SKEP、UIE 等模型，支持评论维度、观点抽取、情感极性分类等情感分析任务 </summary><div>
+<details><summary>&emsp;集成BiLSTM、SKEP、UIE等模型，支持评论维度、观点抽取、情感极性分类等情感分析任务 </summary><div>
 
 #### 支持不同模型，速度快和精度高两种模式
 
@@ -1315,11 +1315,11 @@ from paddlenlp import Taskflow
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `model`：选择任务使用的模型，可选有`bilstm`,`skep_ernie_1.0_large_ch`,`uie-senta-base`,`uie-senta-medium`,`uie-senta-mini`,`uie-senta-micro`,`uie-senta-nano`。
-* `task_path`：自定义任务路径，默认为 None。
+* `task_path`：自定义任务路径，默认为None。
 </div></details>
 
 ### 生成式问答
-<details><summary>&emsp; 使用最大中文开源 CPM 模型完成问答</summary><div>
+<details><summary>&emsp; 使用最大中文开源CPM模型完成问答</summary><div>
 
 #### 支持单条、批量预测
 
@@ -1339,7 +1339,7 @@ from paddlenlp import Taskflow
 </div></details>
 
 ### 智能写诗
-<details><summary>&emsp; 使用最大中文开源 CPM 模型完成写诗 </summary><div>
+<details><summary>&emsp; 使用最大中文开源CPM模型完成写诗 </summary><div>
 
 #### 支持单条、批量预测
 
@@ -1359,7 +1359,7 @@ from paddlenlp import Taskflow
 </div></details>
 
 ### 开放域对话
-<details><summary>&emsp;十亿级语料训练最强中文闲聊模型 PLATO-Mini，支持多轮对话</summary><div>
+<details><summary>&emsp;十亿级语料训练最强中文闲聊模型PLATO-Mini，支持多轮对话</summary><div>
 
 #### 非交互模式
 ```python
@@ -1396,11 +1396,11 @@ from paddlenlp import Taskflow
 ```
 
 交互模式参数：
-* `max_turn`：任务能记忆的对话轮数，当 max_turn 为1时，模型只能记住当前对话，无法获知之前的对话内容。
+* `max_turn`：任务能记忆的对话轮数，当max_turn为1时，模型只能记住当前对话，无法获知之前的对话内容。
   </div></details>
 
 ### 代码生成
-<details><summary>&emsp; 通过 CodeGen 模型来生成代码 </summary><div>
+<details><summary>&emsp; 通过CodeGen模型来生成代码 </summary><div>
 
 #### 支持单条、批量预测
 
@@ -1417,24 +1417,24 @@ from paddlenlp import Taskflow
 ```
 
 #### 可配置参数说明
-* `model`：可选模型，默认为 Salesforce/codegen-350M-mono，支持的模型参考[CodeGen 文档](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/slm/examples/code_generation/codegen/README.md)。
+* `model`：可选模型，默认为Salesforce/codegen-350M-mono，支持的模型参考[CodeGen文档](https://github.com/PaddlePaddle/PaddleNLP/blob/develop/legacy/examples/code_generation/codegen/README.md)。
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `max_length`：生成代码的最大长度，默认为128。
 * `min_length`：生成代码的最小长度，默认为0。
-* `decode_strategy`：解码策略，支持 greedy_search，beam_search 和 sampling，默认为 sampling。
-* `temperature`：解码参数 temperature，默认为0.6。
-* `top_k`：解码参数 top_k，默认为5。
-* `top_p`：解码参数 top_p，默认为1.0。
-* `num_beams`：beam_search 解码的 beam size，默认为4。
+* `decode_strategy`：解码策略，支持greedy_search，beam_search和sampling，默认为sampling。
+* `temperature`：解码参数temperature，默认为0.6。
+* `top_k`：解码参数top_k，默认为5。
+* `top_p`：解码参数top_p，默认为1.0。
+* `num_beams`：beam_search解码的beam size，默认为4。
 * `length_penalty`：解码长度控制值，默认为1.0。
 * `repetition_penalty`：解码重复惩罚值，默认为1.1。
-* `output_scores`：是否要输出解码得分，请默认为 False。
+* `output_scores`：是否要输出解码得分，请默认为False。
 </div></details>
 
 
 
 ### 文本摘要
-<details><summary>&emsp; 通过 Pegasus 模型来生成摘要 </summary><div>
+<details><summary>&emsp; 通过Pegasus模型来生成摘要 </summary><div>
 
 #### 支持单条、批量预测
 
@@ -1460,7 +1460,7 @@ from paddlenlp import Taskflow
 </div></details>
 
 ### 文档智能
-<details><summary>&emsp; 以多语言跨模态布局增强文档预训练模型 ERNIE-Layout 为核心底座 </summary><div>
+<details><summary>&emsp; 以多语言跨模态布局增强文档预训练模型ERNIE-Layout为核心底座 </summary><div>
 
 #### 输入格式
 
@@ -1471,7 +1471,7 @@ from paddlenlp import Taskflow
 ]
 ```
 
-默认使用 PaddleOCR 进行 OCR 识别，同时支持用户通过``word_boxes``传入自己的 OCR 结果，格式为``List[str, List[float, float, float, float]]``。
+默认使用PaddleOCR进行OCR识别，同时支持用户通过``word_boxes``传入自己的OCR结果，格式为``List[str, List[float, float, float, float]]``。
 
 ```
 [
@@ -1502,7 +1502,7 @@ from paddlenlp import Taskflow
   'result': [{'end': 44, 'prob': 0.82, 'start': 38, 'value': '金融学(本科）'}]}]
 ```
 
-- http 图片链接输入
+- http图片链接输入
 
 <div align="center">
     <img src=https://user-images.githubusercontent.com/40840292/194748592-e20b2a5f-d36b-46fb-8057-86755d188af0.jpg height=400 hspace='10'/>
@@ -1526,14 +1526,14 @@ from paddlenlp import Taskflow
 
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `lang`：选择 PaddleOCR 的语言，`ch`可在中英混合的图片中使用，`en`在英文图片上的效果更好，默认为`ch`。
-* `topn`: 如果模型识别出多个结果，将返回前 n 个概率值最高的结果，默认为1。
+* `lang`：选择PaddleOCR的语言，`ch`可在中英混合的图片中使用，`en`在英文图片上的效果更好，默认为`ch`。
+* `topn`: 如果模型识别出多个结果，将返回前n个概率值最高的结果，默认为1。
 
 
 </div></details>
 
 ### 问题生成
-<details><summary>&emsp; 基于百度自研中文预训练模型 UNIMO-Text 和大规模多领域问题生成数据集</summary><div>
+<details><summary>&emsp; 基于百度自研中文预训练模型UNIMO-Text和大规模多领域问题生成数据集</summary><div>
 
 #### 支持单条、批量预测
 
@@ -1559,26 +1559,26 @@ from paddlenlp import Taskflow
 ```
 
 #### 可配置参数说明
-* `model`：可选模型，默认为 unimo-text-1.0-dureader_qg，支持的模型有["unimo-text-1.0", "unimo-text-1.0-dureader_qg", "unimo-text-1.0-question-generation", "unimo-text-1.0-question-generation-dureader_qg"]。
+* `model`：可选模型，默认为unimo-text-1.0-dureader_qg，支持的模型有["unimo-text-1.0", "unimo-text-1.0-dureader_qg", "unimo-text-1.0-question-generation", "unimo-text-1.0-question-generation-dureader_qg"]。
 * `device`：运行设备，默认为"gpu"。
 * `template`：模版，可选项有[0, 1, 2, 3]，1表示使用默认模版，0表示不使用模版。
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `output_scores`：是否要输出解码得分，默认为 False。
-* `is_select_from_num_return_sequences`：是否对多个返回序列挑选最优项输出，当为 True 时，若 num_return_sequences 不为1则自动根据解码得分选择得分最高的序列最为最终结果，否则返回 num_return_sequences 个序列，默认为 True。
+* `output_scores`：是否要输出解码得分，默认为False。
+* `is_select_from_num_return_sequences`：是否对多个返回序列挑选最优项输出，当为True时，若num_return_sequences不为1则自动根据解码得分选择得分最高的序列最为最终结果，否则返回num_return_sequences个序列，默认为True。
 * `max_length`：生成代码的最大长度，默认为50。
 * `min_length`：生成代码的最小长度，默认为3。
-* `decode_strategy`：解码策略，支持 beam_search 和 sampling，默认为 beam_search。
-* `temperature`：解码参数 temperature，默认为1.0。
-* `top_k`：解码参数 top_k，默认为0。
-* `top_p`：解码参数 top_p，默认为1.0。
-* `num_beams`：解码参数 num_beams，表示 beam_search 解码的 beam size，默认为6。
-* `num_beam_groups`：解码参数 num_beam_groups，默认为1。
-* `diversity_rate`：解码参数 diversity_rate，默认为0.0。
+* `decode_strategy`：解码策略，支持beam_search和sampling，默认为beam_search。
+* `temperature`：解码参数temperature，默认为1.0。
+* `top_k`：解码参数top_k，默认为0。
+* `top_p`：解码参数top_p，默认为1.0。
+* `num_beams`：解码参数num_beams，表示beam_search解码的beam size，默认为6。
+* `num_beam_groups`：解码参数num_beam_groups，默认为1。
+* `diversity_rate`：解码参数diversity_rate，默认为0.0。
 * `length_penalty`：解码长度控制值，默认为1.2。
 * `num_return_sequences`：解码返回序列数，默认为1。
 * `repetition_penalty`：解码重复惩罚值，默认为1。
-* `use_fast`：表示是否开启基于 FastGeneration 的高性能预测，注意 FastGeneration 的高性能预测仅支持 gpu，默认为 False。
-* `use_fp16_decoding`: 表示在开启高性能预测的时候是否使用 fp16来完成预测过程，若不使用则使用 fp32，默认为 False。
+* `use_fast`：表示是否开启基于FastGeneration的高性能预测，注意FastGeneration的高性能预测仅支持gpu，默认为False。
+* `use_fp16_decoding`: 表示在开启高性能预测的时候是否使用fp16来完成预测过程，若不使用则使用fp32，默认为False。
 
 </div></details>
 
@@ -1636,18 +1636,18 @@ from paddlenlp import Taskflow
 #### 可配置参数说明
 
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
-* `task_path`：自定义任务路径，默认为 None。
+* `task_path`：自定义任务路径，默认为None。
 * `schema`：定义任务标签候选集合。
 * `model`：选择任务使用的模型，默认为`utc-base`, 支持`utc-xbase`, `utc-base`, `utc-medium`, `utc-micro`, `utc-mini`, `utc-nano`, `utc-pico`。
 * `max_seq_len`：最长输入长度，包括所有标签的长度，默认为512。
 * `pred_threshold`：模型对标签预测的概率在0～1之间，返回结果去掉小于这个阈值的结果，默认为0.5。
-* `precision`：选择模型精度，默认为`fp32`，可选有`fp16`和`fp32`。`fp16`推理速度更快。如果选择`fp16`，请先确保机器正确安装 NVIDIA 相关驱动和基础软件，**确保 CUDA>=11.2，cuDNN>=8.1.1**，初次使用需按照提示安装相关依赖。其次，需要确保 GPU 设备的 CUDA 计算能力（CUDA Compute Capability）大于7.0，典型的设备包括 V100、T4、A10、A100、GTX 20系列和30系列显卡等。更多关于 CUDA Compute Capability 和精度支持情况请参考 NVIDIA 文档：[GPU 硬件与支持精度对照表](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-840-ea/support-matrix/index.html#hardware-precision-matrix)。
+* `precision`：选择模型精度，默认为`fp32`，可选有`fp16`和`fp32`。`fp16`推理速度更快。如果选择`fp16`，请先确保机器正确安装NVIDIA相关驱动和基础软件，**确保CUDA>=11.2，cuDNN>=8.1.1**，初次使用需按照提示安装相关依赖。其次，需要确保GPU设备的CUDA计算能力（CUDA Compute Capability）大于7.0，典型的设备包括V100、T4、A10、A100、GTX 20系列和30系列显卡等。更多关于CUDA Compute Capability和精度支持情况请参考NVIDIA文档：[GPU硬件与支持精度对照表](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-840-ea/support-matrix/index.html#hardware-precision-matrix)。
 
 </div></details>
 
 ### 模型特征提取
 
-<details><summary>&emsp; 基于百度自研中文图文跨模态预训练模型 ERNIE-ViL 2.0</summary><div>
+<details><summary>&emsp; 基于百度自研中文图文跨模态预训练模型ERNIE-ViL 2.0</summary><div>
 
 #### 多模态特征提取
 
@@ -1762,7 +1762,7 @@ Tensor(shape=[2], dtype=float32, place=Place(gpu:0), stop_gradient=True,
 #### 可配置参数说明
 * `batch_size`：批处理大小，请结合机器情况进行调整，默认为1。
 * `max_seq_len`：文本序列的最大长度，默认为128。
-* `return_tensors`: 返回的类型，有 pd 和 np，默认为 pd。
+* `return_tensors`: 返回的类型，有pd和np，默认为pd。
 * `model`：选择任务使用的模型，默认为`PaddlePaddle/ernie_vil-2.0-base-zh`。
 * `pooling_mode`：选择句向量获取方式，有'max_tokens','mean_tokens','mean_sqrt_len_tokens','cls_token'，默认为'cls_token'（`moka-ai/m3e-base`）。
 
@@ -1776,20 +1776,20 @@ Tensor(shape=[2], dtype=float32, place=Place(gpu:0), stop_gradient=True,
 
 |                             任务名称                              |                                默认路径                                |                                                                                                                  |
 |:-----------------------------------------------------------------:|:----------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
-|           `Taskflow("word_segmentation", mode="base")`            |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis)             |
-|         `Taskflow("word_segmentation", mode="accurate")`          |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm)        |
-|                     `Taskflow("pos_tagging")`                     |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis)             |
-|                  `Taskflow("ner", mode="fast")`                   |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis)             |
-|                `Taskflow("ner", mode="accurate")`                 |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm)        |
-|      `Taskflow("information_extraction", model="uie-base")`       |      `$HOME/.paddlenlp/taskflow/information_extraction/uie-base`       |               [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/model_zoo/uie)                |
-|      `Taskflow("information_extraction", model="uie-tiny")`       |      `$HOME/.paddlenlp/taskflow/information_extraction/uie-tiny`       |               [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/model_zoo/uie)                |
-|         `Taskflow("text_correction", model="ernie-csc")`          |         `$HOME/.paddlenlp/taskflow/text_correction/ernie-csc`          |        [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_correction/ernie-csc)         |
+|           `Taskflow("word_segmentation", mode="base")`            |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis)             |
+|         `Taskflow("word_segmentation", mode="accurate")`          |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm)        |
+|                     `Taskflow("pos_tagging")`                     |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis)             |
+|                  `Taskflow("ner", mode="fast")`                   |                    `$HOME/.paddlenlp/taskflow/lac`                     |             [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis)             |
+|                `Taskflow("ner", mode="accurate")`                 |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm)        |
+|      `Taskflow("information_extraction", model="uie-base")`       |      `$HOME/.paddlenlp/taskflow/information_extraction/uie-base`       |               [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/model_zoo/uie)                |
+|      `Taskflow("information_extraction", model="uie-tiny")`       |      `$HOME/.paddlenlp/taskflow/information_extraction/uie-tiny`       |               [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/model_zoo/uie)                |
+|         `Taskflow("text_correction", model="ernie-csc")`          |         `$HOME/.paddlenlp/taskflow/text_correction/ernie-csc`          |        [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_correction/ernie-csc)         |
 |        `Taskflow("dependency_parsing", model="ddparser")`         |        `$HOME/.paddlenlp/taskflow/dependency_parsing/ddparser`         |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/examples/dependency_parsing/ddparser)        |
 |   `Taskflow("dependency_parsing", model="ddparser-ernie-1.0")`    |   `$HOME/.paddlenlp/taskflow/dependency_parsing/ddparser-ernie-1.0`    |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/examples/dependency_parsing/ddparser)        |
 | `Taskflow("dependency_parsing", model="ddparser-ernie-gram-zh")`  | `$HOME/.paddlenlp/taskflow/dependency_parsing/ddparser-ernie-gram-zh`  |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/examples/dependency_parsing/ddparser)        |
-| `Taskflow("sentiment_analysis", model="skep_ernie_1.0_large_ch")` | `$HOME/.paddlenlp/taskflow/sentiment_analysis/skep_ernie_1.0_large_ch` |         [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/sentiment_analysis/skep)          |
-|          `Taskflow("knowledge_mining", model="wordtag")`          |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm)        |
-|           `Taskflow("knowledge_mining", model="nptag")`           |           `$HOME/.paddlenlp/taskflow/knowledge_mining/nptag`           |         [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/nptag)          |
+| `Taskflow("sentiment_analysis", model="skep_ernie_1.0_large_ch")` | `$HOME/.paddlenlp/taskflow/sentiment_analysis/skep_ernie_1.0_large_ch` |         [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/sentiment_analysis/skep)          |
+|          `Taskflow("knowledge_mining", model="wordtag")`          |                  `$HOME/.paddlenlp/taskflow/wordtag`                   |       [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm)        |
+|           `Taskflow("knowledge_mining", model="nptag")`           |           `$HOME/.paddlenlp/taskflow/knowledge_mining/nptag`           |         [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/nptag)          |
 |   `Taskflow("zero_shot_text_classification", model="utc-base")`   |   `$HOME/.paddlenlp/taskflow/zero_shot_text_classification/utc-base`   | [示例](https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/applications/zero_shot_text_classification) |
 
 </div></details>
@@ -1808,7 +1808,7 @@ $HOME/.paddlenlp/taskflow/wordtag/
 └── tags.txt # 默认标签文件
 ```
 
-* 参考上表中对应[示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm)准备数据集和标签文件`tags.txt`，执行相应训练脚本得到自己的`model_state.pdparams`和`model_config.json`。
+* 参考上表中对应[示例](https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm)准备数据集和标签文件`tags.txt`，执行相应训练脚本得到自己的`model_state.pdparams`和`model_config.json`。
 
 * 根据自己数据集情况，修改标签文件`tags.txt`。
 
@@ -1820,7 +1820,7 @@ custom_task_path/
 ├── model_config.json # 定制模型配置文件
 └── tags.txt # 定制标签文件
 ```
-* 通过`task_path`指定自定义路径，使用 Taskflow 加载自定义模型进行一键预测：
+* 通过`task_path`指定自定义路径，使用Taskflow加载自定义模型进行一键预测：
 
 ```python
 from paddlenlp import Taskflow
@@ -1834,23 +1834,23 @@ my_ner = Taskflow("ner", mode="accurate", task_path="./custom_task_path/")
 
 <table>
   <tr><td>任务名称<td>模型<td>模型详情<td>训练集
-  <tr><td rowspan="3">中文分词<td>默认模式: BiGRU+CRF<td>  <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含近2200万句子，覆盖多种场景
+  <tr><td rowspan="3">中文分词<td>默认模式: BiGRU+CRF<td>  <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含近2200万句子，覆盖多种场景
   <tr><td>快速模式：Jieba<td> - <td> -
-  <tr><td>精确模式：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于 TermTree 构建
-  <tr><td>词性标注<td>BiGRU+CRF<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含2200万句子，覆盖多种场景
-  <tr><td rowspan="2">命名实体识别<td>精确模式：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于 TermTree 构建
-  <tr><td>快速模式：BiGRU+CRF <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含2200万句子，覆盖多种场景
-  <tr><td>依存句法分析<td>DDParser<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/dependency_parsing/ddparser"> 训练详情 <td> 百度自建数据集，DuCTB 1.0中文依存句法树库
-  <tr><td>信息抽取<td> UIE <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/model_zoo/uie"> 训练详情 <td> 百度自建数据集
-  <tr><td rowspan="2">解语知识标注<td>词类知识标注：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于 TermTree 构建
-  <tr><td>名词短语标注：NPTag <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_to_knowledge/nptag"> 训练详情 <td> 百度自建数据集
-  <tr><td>文本纠错<td>ERNIE-CSC<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/text_correction/ernie-csc"> 训练详情 <td> SIGHAN 简体版数据集及 <a href="https://github.com/wdimmy/Automatic-Corpus-Generation/blob/master/corpus/train.sgml"> Automatic Corpus Generation 生成的中文纠错数据集
+  <tr><td>精确模式：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于TermTree构建
+  <tr><td>词性标注<td>BiGRU+CRF<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含2200万句子，覆盖多种场景
+  <tr><td rowspan="2">命名实体识别<td>精确模式：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于TermTree构建
+  <tr><td>快速模式：BiGRU+CRF <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/lexical_analysis"> 训练详情 <td> 百度自建数据集，包含2200万句子，覆盖多种场景
+  <tr><td>依存句法分析<td>DDParser<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/dependency_parsing/ddparser"> 训练详情 <td> 百度自建数据集，DuCTB 1.0中文依存句法树库
+  <tr><td>信息抽取<td> UIE <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/model_zoo/uie"> 训练详情 <td> 百度自建数据集
+  <tr><td rowspan="2">解语知识标注<td>词类知识标注：WordTag<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/ernie-ctm"> 训练详情 <td> 百度自建数据集，词类体系基于TermTree构建
+  <tr><td>名词短语标注：NPTag <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_to_knowledge/nptag"> 训练详情 <td> 百度自建数据集
+  <tr><td>文本纠错<td>ERNIE-CSC<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/text_correction/ernie-csc"> 训练详情 <td> SIGHAN简体版数据集及 <a href="https://github.com/wdimmy/Automatic-Corpus-Generation/blob/master/corpus/train.sgml"> Automatic Corpus Generation生成的中文纠错数据集
   <tr><td>文本相似度<td>SimBERT<td> - <td> 收集百度知道2200万对相似句组
   <tr><td rowspan="3">情感分析<td> BiLSTM <td> - <td> 百度自建数据集
-  <tr><td> SKEP <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/slm/examples/sentiment_analysis/skep"> 训练详情 <td> 百度自建数据集
+  <tr><td> SKEP <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/develop/legacy/examples/sentiment_analysis/skep"> 训练详情 <td> 百度自建数据集
   <tr><td> UIE <td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/applications/sentiment_analysis/unified_sentiment_extraction"> 训练详情 <td> 百度自建数据集
-  <tr><td>生成式问答<td>CPM<td> - <td> 100GB 级别中文数据
-  <tr><td>智能写诗<td>CPM<td> - <td> 100GB 级别中文数据
+  <tr><td>生成式问答<td>CPM<td> - <td> 100GB级别中文数据
+  <tr><td>智能写诗<td>CPM<td> - <td> 100GB级别中文数据
   <tr><td>开放域对话<td>PLATO-Mini<td> - <td> 十亿级别中文对话数据
   <tr><td>零样本文本分类<td>UTC<td> <a href="https://github.com/PaddlePaddle/PaddleNLP/tree/release/2.8/applications/zero_shot_text_classification"> 训练详情  <td> 百度自建数据集
 </table>
@@ -1859,27 +1859,27 @@ my_ner = Taskflow("ner", mode="accurate", task_path="./custom_task_path/")
 
 ## FAQ
 
-<details><summary><b>Q：</b>Taskflow 如何修改任务保存路径？</summary><div>
+<details><summary><b>Q：</b>Taskflow如何修改任务保存路径？</summary><div>
 
-**A:** Taskflow 默认会将任务相关模型等文件保存到`$HOME/.paddlenlp`下，可以在任务初始化的时候通过`home_path`自定义修改保存路径。示例：
+**A:** Taskflow默认会将任务相关模型等文件保存到`$HOME/.paddlenlp`下，可以在任务初始化的时候通过`home_path`自定义修改保存路径。示例：
 ```python
 from paddlenlp import Taskflow
 
 ner = Taskflow("ner", home_path="/workspace")
 ```
-通过以上方式即可将 ner 任务相关文件保存至`/workspace`路径下。
+通过以上方式即可将ner任务相关文件保存至`/workspace`路径下。
 </div></details>
 
 
 <details><summary><b>Q：</b>下载或调用模型失败，多次下载均失败怎么办？</summary><div>
 
-**A:** Taskflow 默认会将任务相关模型等文件保存到`$HOME/.paddlenlp/taskflow`下，如果下载或调用失败，可删除相应路径下的文件，重新尝试即可
+**A:** Taskflow默认会将任务相关模型等文件保存到`$HOME/.paddlenlp/taskflow`下，如果下载或调用失败，可删除相应路径下的文件，重新尝试即可
 
 </div></details>
 
-<details><summary><b>Q：</b>Taskflow 如何提升预测速度？</summary><div>
+<details><summary><b>Q：</b>Taskflow如何提升预测速度？</summary><div>
 
-**A:** 可以结合设备情况适当调整 batch_size，采用批量输入的方式来提升平均速率。示例：
+**A:** 可以结合设备情况适当调整batch_size，采用批量输入的方式来提升平均速率。示例：
 ```python
 from paddlenlp import Taskflow
 
@@ -1896,7 +1896,7 @@ seg_accurate(texts)
 
 <details><summary><b>Q：</b>后续会增加更多任务支持吗？</summary><div>
 
-**A:** Taskflow 支持任务持续丰富中，我们将根据开发者反馈，灵活调整功能建设优先级，可通过 Issue 或[问卷](https://wenjuan.baidu-int.com/manage/?r=survey/pageEdit&sid=85827)反馈给我们。
+**A:** Taskflow支持任务持续丰富中，我们将根据开发者反馈，灵活调整功能建设优先级，可通过Issue或[问卷](https://wenjuan.baidu-int.com/manage/?r=survey/pageEdit&sid=85827)反馈给我们。
 
 </div></details>
 
